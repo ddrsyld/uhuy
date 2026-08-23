@@ -1,0 +1,40 @@
+name: Automated Daily Commit & Push
+
+on:
+  schedule:
+    # Berjalan otomatis setiap 2-3 jam (waktu UTC)
+    # Jadwal ini mencakup sekitar 6-8 kali sehari
+    - cron: '17 1,4,7,10,13,16,19,22 * * *'
+  workflow_dispatch: # Memungkinkan kamu menjalankan workflow secara manual dari tab Actions di GitHub
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Auto Commit
+        run: |
+          # Menjalankan auto_commit.py untuk membuat 1 commit otomatis
+          python auto_commit.py --mode single
+
+      - name: Push changes
+        run: |
+          git push origin HEAD:${{ github.ref_name }}
