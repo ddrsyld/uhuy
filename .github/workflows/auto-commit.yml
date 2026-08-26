@@ -27,13 +27,13 @@ jobs:
 
       - name: Configure Git User
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "ddrsyld"
+          git config --global user.email "exaid80433@gmail.com"
 
       - name: Run Auto Commit
         run: |
-          # Menjalankan auto_commit.py untuk membuat 1 commit otomatis
-          python auto_commit.py --mode single
+          # Menjalankan auto_commit.py untuk membuat 1 commit otomatis tanpa push langsung dari python
+          python auto_commit.py --mode single --no-push
 
       - name: Push changes
         run: |
